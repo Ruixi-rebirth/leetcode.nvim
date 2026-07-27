@@ -259,6 +259,11 @@ function cmd.hints()
     cmd.info()
 end
 
+function cmd.plan_open(key)
+    require("leetcode.utils").auth_guard()
+    require("leetcode.api.study-plan").open(key)
+end
+
 function cmd.q_run()
     local utils = require("leetcode.utils")
     utils.auth_guard()
@@ -630,6 +635,16 @@ cmd.commands = {
     --     },
     --     update = { cmd.update_sessions },
     -- },
+    plan = (function()
+        local subs = { _args = arguments.plan }
+        local plan_mod = require("leetcode.api.study-plan")
+        for k, _ in pairs(plan_mod.plans) do
+            subs[k] = {
+                function() cmd.plan_open(k) end,
+            }
+        end
+        return subs
+    end)(),
     list = {
         cmd.problems,
         _args = arguments.list,

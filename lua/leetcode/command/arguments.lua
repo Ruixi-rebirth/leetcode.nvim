@@ -95,4 +95,11 @@ arguments.session_create = {
     name = {},
 }
 
+arguments.plan = {
+    key = (function()
+        local plan = require("leetcode.api.study-plan")
+        return vim.tbl_keys(plan.plans)
+    end)(),
+}
+
 return arguments
